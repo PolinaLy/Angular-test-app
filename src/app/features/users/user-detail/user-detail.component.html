@@ -1,18 +1,18 @@
-<!-- <h1>User Detail</h1>
-<div *ngIf="user">
-  <p>Name: {{user.first_name}} {{user.last_name}}</p>
-  <button (click)="updateUser(user.id, user)">Update User</button>
-  <button (click)="deleteUser(user.id)">Delete User</button>
-</div> -->
+  <form [formGroup]="userForm" (ngSubmit)="editUser()" *ngIf="user">
+    <label for="user-id">ID: </label>
+    <input type="text" id="user-id" formControlName="id" value="{{ user.id }}" readonly>
+    <br>
+    <label for="user-first_name">First Name: </label>
+    <input type="text" id="user-first_name" formControlName="firstName" value="{{ user.first_name }}">
+    <br>
+    <label for="user-last_name">Last Name: </label>
+    <input type="text" id="user-last_name" formControlName="lastName" value="{{ user.last_name }}">
+    <br>
+    <label for="user-email">Email: </label>
+    <input type="text" id="user-email" formControlName="email">
+    <br>
+    <p>Avatar: <img [src]="user.avatar" alt="Avatar"></p>
+    <button type="submit">Update User: </button>
+  </form>
+  <div *ngIf="error">{{ error }}</div>
 
-<div *ngIf="user">
-  <h2>User Details</h2>
-  <p>ID: {{ user.id }}</p>
-  <!-- <p>First Name: <input type="text" [(ngModel)]="user.first_name"></p>
-  <p>Last Name: <input type="text" [(ngModel)]="user.last_name"></p> -->
-  <p>First Name:  {{user.first_name }}</p>
-  <p>Last Name:   {{user.last_name }}</p>
-  <p>Email: {{ user.email }}</p>
-  <p>Avatar: <img [src]="user.avatar" alt="Avatar"></p>
-  <button (click)="updateUser()">Update User</button>
-</div>

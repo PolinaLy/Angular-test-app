@@ -1,57 +1,71 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../users.service';
 import { User } from '../../shared/models/user.model';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.scss'],
-  imports: [CommonModule]
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule]
 })
+
 export class UserDetailComponent implements OnInit, OnDestroy {
+  userForm: FormGroup;
 
-  @Input() user: User | null = null;
-  private routeSubscription: Subscription | undefined;
-  private users: User[] = [];
+  user: User | null = null;
+  error: string | null = null;
 
+  private routeSubscription: Subscription = new Subscription();
 
-  constructor(private route: ActivatedRoute, private usersService: UsersService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private usersService: UsersService, private formBuilder: FormBuilder) {
+    this.userForm = this.formBuilder.group({
+      id: [0, Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      avatar: [''],
+    });
+  }
 
   ngOnInit(): void {
-    this.routeSubscription = this.route.params.subscribe(params => {
+    this.routeSubscription.add(this.route.params.subscribe(params => {
       const id = +params['id']; // Convert to number
-      this.usersService.getUser(id).subscribe(user => this.user = user);
-      }
-    )
-  }
-
-  updateUser() {
-    this.usersService.updateUser(this.user!).subscribe(
-      updatedUser => {
-        this.user = updatedUser; // Update the displayed user
-        console.log('User updated successfully:', updatedUser);
-      },
-      error => console.error('Error updating user:', error)
-    );
-  }
-
-  deleteUser(id: number) {
-      this.usersService.deleteUser(id).subscribe({
-          next: () => {
-              console.log("User deleted!");
-          },
-          error: (error) => {
-              console.error("Error deleting user:", error);
+      this.usersService.getUser(id).subscribe({
+        next: user => {
+          this.user = user;
+          if (user) {
+            this.userForm.patchValue(user);
+          } else {
+            this.error = `User with ID ${id} not found`;
           }
-      });
+        },
+        error: err => {
+          this.error = `Error fetching user: ${err.message}`;
+        }
+      })
+    }
+    ))
   }
+
+  editUser() {
+    if (this.userForm.invalid) {
+        this.error = 'Please fill out all required fields correctly.';
+        return;
+    }
+
+    const updatedUser = { ...this.userForm.value };
+    this.usersService.editUser(updatedUser).subscribe({
+        next: () => this.router.navigate(['/users']),
+        error: (err) => this.error = `Error updating user: ${err.message}`
+    });
+}
 
   ngOnDestroy(): void {
-    if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
-    }
   }
 }
