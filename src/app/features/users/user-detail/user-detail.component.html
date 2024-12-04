@@ -1,0 +1,18 @@
+<!-- <h1>User Detail</h1>
+<div *ngIf="user">
+  <p>Name: {{user.first_name}} {{user.last_name}}</p>
+  <button (click)="updateUser(user.id, user)">Update User</button>
+  <button (click)="deleteUser(user.id)">Delete User</button>
+</div> -->
+
+<div *ngIf="user">
+  <h2>User Details</h2>
+  <p>ID: {{ user.id }}</p>
+  <!-- <p>First Name: <input type="text" [(ngModel)]="user.first_name"></p>
+  <p>Last Name: <input type="text" [(ngModel)]="user.last_name"></p> -->
+  <p>First Name:  {{user.first_name }}</p>
+  <p>Last Name:   {{user.last_name }}</p>
+  <p>Email: {{ user.email }}</p>
+  <p>Avatar: <img [src]="user.avatar" alt="Avatar"></p>
+  <button (click)="updateUser()">Update User</button>
+</div>
