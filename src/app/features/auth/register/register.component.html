@@ -1,1 +1,19 @@
-<p>register works!</p>
+<div>
+  <h2>Register</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <div class="form-wrapper">
+      <div>
+        <label for="email">Email</label>
+        <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required formControlName="email"/>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" [(ngModel)]="password" name="password" placeholder="Password" required formControlName="password"/>
+      </div>
+      <button type="submit">Register</button>
+    </div>
+    <span>Already have an account?</span>
+    <a routerLink="/login">signIn</a>
+  </form>
+  <p>{{ message }}</p>
+</div>

@@ -7,3 +7,51 @@ body {
   background: var(--dark-color);
   color: var(--light-color);
 }
+
+h1, h2, h3 {
+  text-align: center;
+}
+
+a {
+  display: block;
+  width: fit-content;
+  padding: 7px;
+  color: #FFFFFF;
+  text-decoration: none;
+  border-bottom: 1px solid #FFFFFF;
+}
+
+button {
+  text-align: center;
+  background-color: aquamarine;
+  padding: 6px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 90%;
+  width: 400px;
+  margin: 0 auto;
+  align-items: center;
+
+  .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+label {
+  display: block;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+span {
+  font-size: small;
+}

@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { UsersModule } from './features/users/users.module';
-
+import { AuthModule } from './features/auth/auth.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -13,7 +13,8 @@ import { UsersModule } from './features/users/users.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    UsersModule
+    UsersModule,
+    AuthModule
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]
